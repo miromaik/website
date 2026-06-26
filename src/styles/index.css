@@ -2,8 +2,8 @@
 .page{max-width:680px;margin:0 auto;padding:48px 20px 32px;display:flex;flex-direction:column;gap:40px}
 
 /* ══ M3 Top Bar ══ */
-.top-bar{display:flex;align-items:center;justify-content:center;gap:16px;animation:fadeIn .4s ease both;position:relative;z-index:1000;padding-bottom:12px;margin-bottom:12px}
-.nav-links{display:flex;gap:24px;padding-left:0;margin-right:16px}
+.top-bar{display:flex;align-items:center;gap:8px;animation:fadeIn .4s ease both;position:relative;z-index:1000;padding-bottom:12px;margin-bottom:12px}
+.nav-links{display:flex;gap:16px;margin-right:auto;padding-left:8px}
 .nav-link{font-size:.9rem;font-weight:600;color:var(--md-on-surface-variant);transition:color .2s}
 .nav-link:hover,.nav-link.active{color:var(--md-primary)}
 
