@@ -6,8 +6,8 @@ interface Props {
 }
 
 const { 
-  title, 
-  description = "IT specialist focused on system administration and cybersecurity. I build resilient, minimal, stable infrastructure that prioritizes digital sovereignty and works well for people.",
+  title = "Miroslaw Maik — Full Stack Developer", 
+  description = "I build practical software, tools and technical systems across software development, infrastructure and cybersecurity.",
   lang = "en" 
 } = Astro.props;
 ---
@@ -25,12 +25,10 @@ const {
     <meta property="og:url" content={`https://miromaik.com${Astro.url.pathname}`} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://miromaik.com/og-image.png" />
 
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://miromaik.com/og-image.png" />
 
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={`https://miromaik.com${Astro.url.pathname}`} />
