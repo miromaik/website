@@ -2,13 +2,18 @@
 interface Props {
   title: string;
   description?: string;
+  lang?: string;
 }
 
-const { title, description = "IT specialist focused on system administration and cybersecurity. I build resilient, minimal, stable infrastructure that prioritizes digital sovereignty and works well for people." } = Astro.props;
+const { 
+  title, 
+  description = "IT specialist focused on system administration and cybersecurity. I build resilient, minimal, stable infrastructure that prioritizes digital sovereignty and works well for people.",
+  lang = "en" 
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="auto" data-color="blue">
+<html lang={lang} data-theme="auto" data-color="blue">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,11 +45,9 @@ const { title, description = "IT specialist focused on system administration and
       (function() {
         const savedTheme = localStorage.getItem('theme') || 'auto';
         const savedColor = localStorage.getItem('color') || 'blue';
-        const savedLang = localStorage.getItem('lang') || 'en';
         const html = document.documentElement;
         html.setAttribute('data-theme', savedTheme);
         html.setAttribute('data-color', savedColor);
-        html.setAttribute('lang', savedLang);
 
         if (savedTheme === 'auto') {
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
