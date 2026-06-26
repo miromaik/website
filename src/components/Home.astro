@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Navigation from './Navigation.astro';
 import { useTranslations, languages, defaultLang } from '../i18n/ui';
 import '../styles/index.css';
 
@@ -48,42 +49,7 @@ const getLangUrl = (targetLang: string) => {
 
 <Layout title="Miroslaw Maik — Full Stack Developer" lang={lang}>
   <div class="page">
-    <!-- Top Bar -->
-    <div class="top-bar anim-1">
-      <div class="nav-links">
-        <a href={lang === defaultLang ? '/' : `/${lang}/`} class="nav-link active">{t('nav.home')}</a>
-        <a href={lang === defaultLang ? '/projects/' : `/${lang}/projects/`} class="nav-link">{t('nav.projects')}</a>
-      </div>
-
-      <!-- Language Switcher -->
-      <div class="lang-picker dropdown-wrap">
-        <button class="icon-btn" id="lang-btn" aria-label="Switch language" title="Language">
-          <span class="material-symbols-rounded">translate</span>
-        </button>
-        <div class="dropdown-menu" id="lang-menu">
-          {Object.entries(languages).map(([code, label]) => (
-            <a href={getLangUrl(code)} class={`color-opt ${lang === code ? 'active' : ''}`}>
-              <span class="color-label">{label}</span>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <div class="color-picker dropdown-wrap">
-        <button class="icon-btn" id="color-btn" aria-label="Change color" title="Color">
-          <span class="material-symbols-rounded">palette</span>
-        </button>
-        <div class="dropdown-menu" id="color-menu">
-          <button class="color-opt" data-color-val="blue" id="copt-blue"><span class="swatch"></span><span class="color-label">{t('color.blue')}</span></button>
-          <button class="color-opt" data-color-val="purple" id="copt-purple"><span class="swatch"></span><span class="color-label">{t('color.purple')}</span></button>
-          <button class="color-opt" data-color-val="green" id="copt-green"><span class="swatch"></span><span class="color-label">{t('color.green')}</span></button>
-          <button class="color-opt" data-color-val="rose" id="copt-rose"><span class="swatch"></span><span class="color-label">{t('color.rose')}</span></button>
-        </div>
-      </div>
-      <button class="icon-btn" id="theme-btn" aria-label="Toggle theme" title="Theme">
-        <span class="material-symbols-rounded" id="theme-icon">dark_mode</span>
-      </button>
-    </div>
+    <Navigation lang={lang} />
 
     <!-- Hero -->
     <section class="hero anim-2" id="hero">
@@ -168,91 +134,3 @@ const getLangUrl = (targetLang: string) => {
     </footer>
   </div>
 </Layout>
-
-<script is:inline>
-(function(){
-  // ── Color Picker ──
-  var colorBtn = document.getElementById('color-btn');
-  var colorMenu = document.getElementById('color-menu');
-
-  function pickColor(c) {
-    localStorage.setItem('color', c);
-    document.documentElement.setAttribute('data-color', c);
-    document.querySelectorAll('.color-opt[data-color-val]').forEach(function(el) {
-      el.classList.toggle('active', el.getAttribute('data-color-val') === c);
-    });
-    colorMenu.classList.remove('open');
-  }
-
-  // Init
-  var initColor = localStorage.getItem('color') || 'blue';
-  document.documentElement.setAttribute('data-color', initColor);
-  var initEl = document.getElementById('copt-' + initColor);
-  if (initEl) initEl.classList.add('active');
-
-  // Toggle color menu
-  if (colorBtn) {
-    colorBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      colorMenu.classList.toggle('open');
-      var langMenu = document.getElementById('lang-menu');
-      if (langMenu) langMenu.classList.remove('open');
-    });
-  }
-
-  // Color option clicks
-  document.querySelectorAll('.color-opt[data-color-val]').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      pickColor(btn.getAttribute('data-color-val'));
-    });
-  });
-
-  // ── Lang Picker ──
-  var langBtn = document.getElementById('lang-btn');
-  var langMenu = document.getElementById('lang-menu');
-  if (langBtn) {
-    langBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      langMenu.classList.toggle('open');
-      if (colorMenu) colorMenu.classList.remove('open');
-    });
-  }
-
-  // Close on outside click
-  document.addEventListener('click', function(e) {
-    if (colorMenu && !colorMenu.contains(e.target) && !colorBtn.contains(e.target)) {
-      colorMenu.classList.remove('open');
-    }
-    if (langMenu && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
-      langMenu.classList.remove('open');
-    }
-  });
-
-  // ── Theme Toggle ──
-  var themeIcon = document.getElementById('theme-icon');
-  function isDark() {
-    var s = localStorage.getItem('theme') || 'auto';
-    if (s === 'auto') return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return s === 'dark';
-  }
-  function applyTheme() {
-    var dark = isDark();
-    document.documentElement.classList.toggle('dark', dark);
-    if (themeIcon) themeIcon.textContent = dark ? 'light_mode' : 'dark_mode';
-  }
-  applyTheme();
-  var themeBtn = document.getElementById('theme-btn');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', function() {
-      var next = isDark() ? 'light' : 'dark';
-      localStorage.setItem('theme', next);
-      document.documentElement.setAttribute('data-theme', next);
-      applyTheme();
-    });
-  }
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-    if ((localStorage.getItem('theme') || 'auto') === 'auto') applyTheme();
-  });
-})();
-</script>
